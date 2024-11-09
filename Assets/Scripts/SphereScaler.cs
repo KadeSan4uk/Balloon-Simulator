@@ -5,7 +5,7 @@ public class SphereScaler : MonoBehaviour
 {
     private Vector3 _originalScale;
 
-    [SerializeField] private float _maxScale = 3.0f;
+    [SerializeField] private float _maxScale = 10.0f;
     [SerializeField] private BreathingLevel _breathingLevel;
 
 
@@ -23,12 +23,12 @@ public class SphereScaler : MonoBehaviour
         InputHandler();
     }
 
-    private void GetMaxScale()
+    private void BlowUp()
     {
         transform.localScale = Vector3.Lerp(transform.localScale, _originalScale * _maxScale, _growSpeed * Time.deltaTime);
     }
 
-    private void GetMinScale()
+    private void BlowAway()
     {
         transform.localScale = Vector3.Lerp(transform.localScale, _originalScale * _minScale, _minScale * Time.deltaTime);
     }   
@@ -43,9 +43,9 @@ public class SphereScaler : MonoBehaviour
         if (_breathingLevel._isPauseOn == false)
         {
             if (Input.GetKeyDown(KeyCode.Space))
-                GetMaxScale();
+                BlowUp();
             else
-                GetMinScale();
+                BlowAway();
         }                
     }
 }

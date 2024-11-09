@@ -17,9 +17,11 @@ public class BreathingLevel : MonoBehaviour
 
     void Update()
     {
-        BreathingLevelScaller();
-
-        StartCoroutine(CheckAndPauseIfMinSize(this.gameObject));
+        UpdateBreathLevel();
+        if (transform.localScale.magnitude <= _minBreathingScale)
+        {
+            StartCoroutine(CheckAndPauseIfMinSize(this.gameObject));
+        }
     }
 
     private void SetBreathingLevelScale()
@@ -34,14 +36,14 @@ public class BreathingLevel : MonoBehaviour
         transform.localScale = new Vector3(currentScale.x, targetYScale, currentScale.z);
     }
 
-    private void GetMinScale()
+    public void GetMinScale()
     {
         Vector3 currentScale = transform.localScale;
         float newYScale = Mathf.Max(currentScale.y - _partOfSpace, 0);
         transform.localScale = new Vector3(currentScale.x, newYScale, currentScale.z);
     }
 
-    private void BreathingLevelScaller()
+    private void UpdateBreathLevel()
     {
         if (Input.GetKeyDown(KeyCode.Space))
             GetMinScale();
@@ -51,11 +53,9 @@ public class BreathingLevel : MonoBehaviour
 
     private IEnumerator CheckAndPauseIfMinSize(GameObject obj)
     {
-        if (obj.transform.localScale.magnitude <= _minBreathingScale)
-        {
-            Debug.Log("Breathing is over. Pause for 2 second.");
-            yield return new WaitForSeconds(2);
-            _isPauseOn=true;
-        }
+        _isPauseOn = true;
+        Debug.Log("Breathing is over. Pause for 2 second.");
+        yield return new WaitForSeconds(2);
+        _isPauseOn = false;
     }
 }
