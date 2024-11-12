@@ -33,7 +33,7 @@ public class Balloon : MonoBehaviour
 
         if (_balloon.localScale.x >= _maxScale || _balloon.localScale.x <= _minScale)
         {
-            OnExplosion.Invoke();
+            OnExplosion?.Invoke();
             GameManager.Instance.EndGame();
         }
     }
@@ -41,6 +41,7 @@ public class Balloon : MonoBehaviour
     private void Explode()
     {
         OnExplosion -= Explode;
+        GameManager.Instance.EndGame();
         Destroy(gameObject);       
     }
 }

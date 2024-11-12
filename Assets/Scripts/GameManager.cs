@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _gameOverPanel;
     [SerializeField] private TextMeshProUGUI _textMeshProUGUI;
     [SerializeField] private Button _restartButton;
+    [SerializeField] private GameObject _spaceBlow;
+    [SerializeField] private GameObject _brethingLevel;
 
     private float _startTime;
 
@@ -40,7 +42,8 @@ public class GameManager : MonoBehaviour
     {
         _isGameOver = true;
         _gameOverPanel.SetActive(true);
-        //Time.timeScale = 0f;
+        _spaceBlow.SetActive(false);
+        _brethingLevel.SetActive(false);
         GameTimer();
     }
 
@@ -52,14 +55,14 @@ public class GameManager : MonoBehaviour
     private void GameTimer()
     {
         float gameTime = Time.time - _startTime;
-        _textMeshProUGUI.text = Mathf.RoundToInt(gameTime).ToString()+" sec.";
+        _textMeshProUGUI.text = Mathf.RoundToInt(gameTime).ToString() + " sec.";
     }
 
     public void RestartGame()
     {
-        _startTime = Time.time;
         _gameOverPanel.SetActive(false);
-        //Time.timeScale = 1f;
+        _startTime = Time.time;
+        Debug.Log("Time is 1");
         _isGameOver = false;
     }
 
