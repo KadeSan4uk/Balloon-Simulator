@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
 
     public event Action OnSpacePressed;
 
-    [SerializeField] private float _cooldownTime = 1f;
+    [SerializeField] private float _cooldownTime;
 
     public bool _onClickButton = false;
     public bool isOnCooldown = false;
@@ -36,6 +36,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !isOnCooldown || _onClickButton && !isOnCooldown)
         {
             OnSpacePressed?.Invoke();
+            ballon.IsGameStarted = true;
             _onClickButton = false;
             StartCoroutine(StartCooldown());
         }
