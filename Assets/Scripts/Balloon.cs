@@ -1,11 +1,9 @@
 using System;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class Balloon : MonoBehaviour
 {
-    public Action OnExplosion;    
+    public Action OnExplosion;
 
     [SerializeField] private Transform _balloon;
     [SerializeField] private float _maxScale;
@@ -13,10 +11,20 @@ public class Balloon : MonoBehaviour
     [SerializeField] private float _minScale;
     [SerializeField] private float _blowingAwayPower;
 
+    public InputManager inputManager;
 
-    private void Start()
+    public bool IsGameStarted = false;
+
+    private void OnEnable()
     {
+        InputManager.Instance.OnSpacePressed += IncreaseSize;
         OnExplosion += Explode;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Instance.OnSpacePressed -= IncreaseSize;
+        OnExplosion -= Explode;
     }
 
     private void Update()
@@ -24,24 +32,36 @@ public class Balloon : MonoBehaviour
         if (GameManager.Instance.IsGameOver())
             return;
 
-        _balloon.localScale -= Vector3.one * _blowingAwayPower * Time.deltaTime;
+        CheckStartGame();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (IsGameStarted)
         {
-            _balloon.localScale += Vector3.one * _blowingPower;
-        }
+            _balloon.localScale -= Vector3.one * _blowingAwayPower * Time.deltaTime;
 
-        if (_balloon.localScale.x >= _maxScale || _balloon.localScale.x <= _minScale)
-        {
-            OnExplosion?.Invoke();
-            GameManager.Instance.EndGame();
+            if (_balloon.localScale.x >= _maxScale || _balloon.localScale.x <= _minScale)
+            {
+                OnExplosion?.Invoke();
+                GameManager.Instance.EndGame();
+            }
         }
     }
 
     private void Explode()
     {
-        OnExplosion -= Explode;
         GameManager.Instance.EndGame();
-        Destroy(gameObject);       
+        _balloon.transform.gameObject.SetActive(false);
+    }
+
+    private void CheckStartGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !IsGameStarted || inputManager._onClickButton && !IsGameStarted)
+        {
+            IsGameStarted = true;
+        }
+    }
+
+    private void IncreaseSize()
+    {
+        _balloon.localScale += Vector3.one * _blowingPower;
     }
 }

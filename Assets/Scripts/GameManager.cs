@@ -1,8 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,10 +11,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button _restartButton;
     [SerializeField] private GameObject _spaceBlow;
     [SerializeField] private GameObject _brethingLevel;
+    [SerializeField] private Transform _balloon;
+    [SerializeField] private Button _spaceButton;
+
+    public Breathing breathing;
+    public Balloon balloon;
 
     private float _startTime;
-
-
     private bool _isGameOver;
 
     private void Awake()
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         _isGameOver = true;
+        _balloon.gameObject.SetActive(false);
         _gameOverPanel.SetActive(true);
         _spaceBlow.SetActive(false);
         _brethingLevel.SetActive(false);
@@ -61,9 +63,13 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         _gameOverPanel.SetActive(false);
+        balloon.IsGameStarted = false;
+        _balloon.gameObject.SetActive(true);
+        _balloon.localScale = Vector3.one;
+        _spaceBlow.SetActive(true);
+        _brethingLevel.SetActive(true);
+        breathing.transform.localScale = breathing.startScale;
         _startTime = Time.time;
-        Debug.Log("Time is 1");
         _isGameOver = false;
     }
-
 }
