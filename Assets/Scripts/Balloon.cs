@@ -15,6 +15,7 @@ public class Balloon : MonoBehaviour
 
     public bool IsGameStarted = false;
 
+    
     private void OnEnable()
     {
         InputManager.Instance.OnSpacePressed += IncreaseSize;
@@ -54,10 +55,14 @@ public class Balloon : MonoBehaviour
 
     private void CheckStartGame()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !IsGameStarted || inputManager._onClickButton && !IsGameStarted)
+        if (inputManager.isOnCooldown) return;
+        else
         {
-            IsGameStarted = true;
-        }
+            if (Input.GetKeyDown(KeyCode.Space) && !IsGameStarted || inputManager._onClickButton && !IsGameStarted)
+            {
+                IsGameStarted = true;
+            }
+        }        
     }
 
     private void IncreaseSize()

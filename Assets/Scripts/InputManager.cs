@@ -1,16 +1,20 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
+    public Balloon ballon;
+    public Button spaceButton;
 
     public event Action OnSpacePressed;
 
     [SerializeField] private float _cooldownTime = 1f;
+
     public bool _onClickButton = false;
-    private bool _isOnCooldown = false;
+    public bool isOnCooldown = false;
 
     private void Awake()
     {
@@ -27,22 +31,27 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_isOnCooldown || _onClickButton && !_isOnCooldown)
+        if (isOnCooldown) return;
+
+        if (Input.GetKeyDown(KeyCode.Space) && !isOnCooldown || _onClickButton && !isOnCooldown)
         {
             OnSpacePressed?.Invoke();
-            StartCoroutine(StartCooldown());
             _onClickButton = false;
+            StartCoroutine(StartCooldown());
         }
     }
     public void OnClickButtoon()
     {
         _onClickButton = true;
+        ballon.IsGameStarted = true;
     }
 
     private IEnumerator StartCooldown()
     {
-        _isOnCooldown = true;
+        isOnCooldown = true;
+        spaceButton.interactable = false;
         yield return new WaitForSeconds(_cooldownTime);
-        _isOnCooldown = false;
+        spaceButton.interactable = true;
+        isOnCooldown = false;
     }
 }

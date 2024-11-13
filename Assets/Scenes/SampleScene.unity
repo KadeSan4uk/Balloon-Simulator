@@ -1054,8 +1054,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b0c0e80a39efe4385ee9a9460b94a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballon: {fileID: 446772998}
+  spaceButton: {fileID: 1518222405}
   _cooldownTime: 1
   _onClickButton: 0
+  isOnCooldown: 0
 --- !u!4 &842730032
 Transform:
   m_ObjectHideFlags: 0
@@ -2274,7 +2277,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1946621791
 RectTransform:
