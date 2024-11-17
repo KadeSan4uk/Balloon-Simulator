@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button _restartButton;
     [SerializeField] private GameObject _spaceBlow;
     [SerializeField] private GameObject _brethingLevel;
-    [SerializeField] private Transform _balloon;
     [SerializeField] private Button _spaceButton;
 
     public Breathing breathing;
@@ -42,7 +41,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         _isGameOver = true;
-        _balloon.gameObject.SetActive(false);
+        balloon.gameObject.SetActive(false);
         _gameOverPanel.SetActive(true);
         _spaceBlow.SetActive(false);
         _brethingLevel.SetActive(false);
@@ -63,8 +62,9 @@ public class GameManager : MonoBehaviour
         _gameOverPanel.SetActive(false);
         _spaceBlow.SetActive(true);
         balloon.IsGameStarted = false;
-        _balloon.gameObject.SetActive(true);
-        _balloon.localScale = Vector3.one;
+        balloon.Initialize();
+        balloon.gameObject.SetActive(true);
+        balloon.transform.localScale = Vector3.one;
         _brethingLevel.SetActive(true);
         breathing.transform.localScale = breathing.startScale;
         _startTime = Time.time;

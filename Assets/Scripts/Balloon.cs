@@ -13,13 +13,11 @@ public class Balloon : MonoBehaviour
 
     public InputManager inputManager;
 
-    public bool IsGameStarted = false;
-
+    public bool IsGameStarted = false;    
     
-    private void OnEnable()
+    private void Start()
     {
-        InputManager.Instance.OnSpacePressed += IncreaseSize;
-        OnExplosion += Explode;
+        Initialize();
     }
 
     private void OnDisable()
@@ -68,5 +66,11 @@ public class Balloon : MonoBehaviour
     private void IncreaseSize()
     {
         _balloon.localScale += Vector3.one * _blowingPower;
+    }
+
+    internal void Initialize()
+    {
+        InputManager.Instance.OnSpacePressed += IncreaseSize;
+        OnExplosion += Explode;
     }
 }
